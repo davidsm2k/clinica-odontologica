@@ -1,0 +1,78 @@
+create database oydconsult;
+
+use oydconsult;
+
+create table paciente (
+	cpf 				bigint  (12) not null, 
+	nome 				char (40) default null,
+	dataNasc 			char (10) default null,
+	idade 				char (2) default null,
+	email 				char (40) default null,
+	celular 			char (17) default null,
+	sexo 				char (1) default null,
+	constraint ck_sexo_cdPaciente check (sexo in ('M','F')),
+	constraint uq_paciente_cpf UNIQUE (cpf),
+	constraint pk_cpf PRIMARY KEY (cpf)
+);
+
+create table responsavel (
+	codResponsavel 		int (10) not null AUTO_INCREMENT,
+	nomeResponsavel 	char (40) default null,
+	cpfResponsavel 		char (11) default null,
+	dataNascResponsavel char (10) default null,
+	idadeResponsavel 	char (2) default null,
+	emailResponsavel 	char (40) default null,
+	celularResponsavel 	char (17) default null,
+	sexoResponsavel 	char (1) default null,
+	cpf 				bigint  (12) not null, 
+	constraint ck_sexo_cdResponsavel check (sexoResponsavel in ('M','F')),
+	constraint uq_responsavel_cpf UNIQUE (cpfResponsavel),
+	constraint fk_paciente 
+		FOREIGN KEY(cpf) 
+			REFERENCES paciente(cpf) ON DELETE CASCADE ON UPDATE CASCADE,
+	constraint pk_codResponsavel PRIMARY KEY (codResponsavel)
+);
+
+create table endereco (
+	codEndereco 		int (10) not null AUTO_INCREMENT,
+	cep 				char (8) default null,
+	rua 				char (80) default null,
+	numeroCasa 			char (6) default null,
+	bairro 				char (60) default null,
+	cidade 				char (20) default null,
+	estado 				char (2) default null,
+	cpf 				bigint  (12) not null, 
+	constraint fk_paciente 
+		FOREIGN KEY(cpf) 
+			REFERENCES paciente(cpf) ON DELETE CASCADE ON UPDATE CASCADE,
+	constraint pk_codEndereco PRIMARY KEY (codEndereco)
+);
+
+create table prontuario(
+	codProntuario 				int (10) not null AUTO_INCREMENT,
+	tipoParecer 				varchar (40) default null,
+	dataParecer 				char (10) default null,
+	horaParecer 				char (8) default null,
+	obs 						varchar (300) default null,
+	cpf 						bigint (12) not null,
+	constraint fk_paciente 
+		FOREIGN KEY(cpf) 
+			REFERENCES paciente(cpf),
+	constraint pk_prontuario PRIMARY KEY (codProntuario)	
+);
+
+create table agendamento(
+	codAgendamento 				int (10) not null AUTO_INCREMENT,
+	dataAgendamento 			char (10) default null,
+	horaAgendamento 			char (5) default null,
+	tipoAgendamento 			varchar (30) default null,
+	turno 						char(1) default null,
+	cpf 						bigint (12) not null,
+	constraint ck_turno_agendamento check (turno in ('M','V')),
+	constraint fk_paciente 
+		FOREIGN KEY(cpf) 
+			REFERENCES paciente(cpf) ON DELETE CASCADE ON UPDATE CASCADE,
+	constraint pk_agendamento PRIMARY KEY (codAgendamento)
+);
+
+set global max_connections = 500; 
