@@ -1,6 +1,6 @@
 # SISTEMA CLINICA ODONTOLÓGICA :office:
 
-### Projeto acadêmico com o fim de desenvolver um sistema para ser usado em uma clínica odontológica.
+### Projeto acadêmico criado em Java com o fim de desenvolver um sistema de cadastro e relatório para uma clinica odontológica, com uma tela de login e dois perfis, um para o dentista e outro para os funcionários.
 
 
 
